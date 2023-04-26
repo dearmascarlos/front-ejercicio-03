@@ -9,20 +9,19 @@ const Gender = ({id}) => {
   
   useEffect(() => {
     fetch(`${baseURL}/movie/${id}?api_key=${API_KEY}`).then(res => res.json()).then((data) => {
-      console.log(data.genres);  
       setGenres(data.genres)
     })
   }, [])
 
   return (
-    <>
+    <div>
         {
           genres?.map((genre, i) => (
-            <span className="text-white"> {genre.name} </span>
+            <span key={i} className="text-white"> {genre.name} </span>
           ))
         }
       
-    </>
+    </div>
   );
 }
 

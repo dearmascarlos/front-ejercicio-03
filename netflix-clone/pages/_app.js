@@ -13,3 +13,6 @@ export default function App({ Component, pageProps }) {
     </main>
   )
 }
+
+
+//https://github.com/matmac/netflix-clone

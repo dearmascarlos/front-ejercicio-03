@@ -1,8 +1,9 @@
 import PreviewCard from "./previewCard";
 
-const Carousel = ( {topMovies, title} ) => {
-
+const Carousel = ( {topMovies, title, setModalVisible, setModalContent, type} ) => {
+  
   return (
+
 
     <div className="mt-12 z-10">
       <h2 className="text-white">Trending {title}</h2>
@@ -12,6 +13,9 @@ const Carousel = ( {topMovies, title} ) => {
             <PreviewCard
               key={i}
               topMovies={movie}
+              setModalVisible={setModalVisible} 
+              setModalContent={setModalContent}
+              type={type}
             />
           ))
         }
