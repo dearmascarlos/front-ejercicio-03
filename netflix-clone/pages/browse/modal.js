@@ -3,41 +3,58 @@ import { HandThumbUpIcon, XMarkIcon, PlusCircleIcon, SpeakerXMarkIcon } from '@h
 import { PlayIcon, StarIcon } from '@heroicons/react/20/solid'
 import Gender from './gender'
 
+
 const Modal = ({ modalVisible, setModalVisible, type, modalContent }) => {
   
   const baseURL = 'https://api.themoviedb.org/3'
   const API_KEY = 'f247ff737ec8062f3b5e027789eab748'
   
-  const [content, setContent] = useState()
   const [similars, setSimilars] = useState()
   const [video, setVideo] = useState()
 
   const checkVideos = () => {}
   
   useEffect(() => {
-    console.log(modalContent?.media_type)
+    // console.log(modalContent?.media_type)
     if (modalContent?.media_type === 'movie') {
-        fetch(`${baseURL}/${type === 'tv' ? 'tv' : 'movie'}/${modalContent.id}/videos?api_key=${API_KEY}`)
+        fetch(`${baseURL}/movie/${modalContent.id}/videos?api_key=${API_KEY}`)
         .then((res) => res.json())
         .then((data) => {
             console.log('VIDEOS DATA', data.results[0].key)
+            setVideo(data.results[0].key)
+        })
+      } else if (modalContent?.media_type === 'tv') {
+      console.log('SERIES', modalContent?.id)
+        fetch(`${baseURL}/tv/${modalContent?.id}/videos?api_key=${API_KEY}`)
+        .then((res) => res.json())
+        .then((data) => {
+            console.log('VIDEOS DATA2', data.results[0])
             setVideo(data.results[0].key)
         })
     }
   }, [modalContent])
 
   useEffect(() => {
-    fetch(`${baseURL}/${type === 'tv' ? 'tv' : 'movie'}/${modalContent}/similar?api_key=${API_KEY}&language=ES`)
+    if (modalContent?.media_type === 'movie') {
+    fetch(`${baseURL}/movie/${modalContent.id}/similar?api_key=${API_KEY}&language=ES`)
       .then((res) => res.json())
       .then((data) => {
         console.log('SIMILAR', data.results)
         setSimilars(data.results)
       })
+    } else if (modalContent?.media_type === 'tv') {
+        fetch(`${baseURL}/tv/${modalContent.id}/similar?api_key=${API_KEY}&language=ES`)
+        .then((res) => res.json())
+          .then((data) => {
+              console.log('VIDEOS DATA', data.results[0].key)
+              setVideo(data.results[0].key)
+          })
+    }
   }, [modalContent])
   
   return (
     <div
-      className={`absolute inset-0 z-50 bg-black/60 flex justify-center overflow-y-auto mt-8 ${modalVisible ? '' : 'hidden'}`}
+      className={`absolute inset-0 z-50 bg-black/60 flex justify-center overflow-y-auto ${modalVisible ? '' : 'hidden'}`}
       onClick={(e) => e.target === e.currentTarget && setModalVisible(false)}
     >
       <div className="relative flex w-9/12 overflow-hidden bg-black shadow-2xl rounded-xl h-4/6 min-h-[750px]">
@@ -63,7 +80,7 @@ const Modal = ({ modalVisible, setModalVisible, type, modalContent }) => {
               ></iframe>
             )}
             <div className='flex flex-col text-white'>
-                <h3 className={'text-5xl font-bold'}>{content?.title}</h3>
+                <h3 className={'text-5xl font-bold'}>{modalContent?.title}</h3>
                 <div className='flex justify-between items-center'>
                     <div className='flex items-center my-3'>
                         <button className='flex items-center justify-center rounded-sm bg-slate-100 p-2 text-black w-20 h-7 text-sm mr-1'>
@@ -93,7 +110,7 @@ const Modal = ({ modalVisible, setModalVisible, type, modalContent }) => {
             </div>
             <div className='my-1'>
                 <p>{modalContent?.cast}</p>
-                <div>{modalContent ? <Gender id={modalContent}/> : ''}</div>
+                <div>{modalContent ? <Gender id={modalContent.id}/> : ''}</div>
                 {/* <p>{content?.revenue}$</p> */}
             </div>
             <h4 className='my-3'>More you might enjoy</h4>
