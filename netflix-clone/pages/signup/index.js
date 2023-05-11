@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { useForm } from "react-hook-form";
 
-const Login = () => {
+const SignUp = () => {
   const {
     register,
     handleSubmit,
@@ -15,7 +15,12 @@ const Login = () => {
 
   return (
     <div className="h-full flex-1">
-      <Logo className="relative z-10 scale-125 ml-12 mt-8" />
+      <div className="flex mt-8 px-12 justify-between items-center relative z-10">
+        <Logo className="relative z-10 scale-125"/> 
+        <Link href={"/login"} className="text-red-500 text-xl font-semibold hover:underline">
+          Iniciar sesion
+        </Link>
+      </div>
       <div
         style={{
           height: "1100px",
@@ -24,7 +29,7 @@ const Login = () => {
         }}
         className="absolute z-0 inset-0 bg-black/50"></div>
       <div className="relative m-auto bg-black/60 rounded w-[500px] h-[600px] z-10 mt-8 mb-32 flex flex-col p-20">
-        <div className="text-white text-3xl mb-8">Iniciar sesion</div>
+        <div className="text-white text-3xl mb-8">Registrate</div>
         <form
           className="flex flex-col gap-3 mb-4"
           onSubmit={handleSubmit(onSubmit)}>
@@ -54,34 +59,25 @@ const Login = () => {
           })} 
           />
           {errors.password && <span className='text-orange-400 text-xs'>{errors.password?.message}</span>}
-          <button
-            type="submit"
-            className="bg-red-600 text-white font-semibold h-14 rounded mt-9 "
-            name="Iniciar sesión"
-          >Iniciar</button>
-        </form>
-        <div className="flex items-center justify-between">
           <div className="flex items-center">
             <input
               type="checkbox"
               className="w-5 h-5 checked:accent-neutral-700"
             />
             <span className="text-white text-sm font-extralight ml-2">
-              Recuerdame
+              No deseo recibir ofertas espciales de Netflix
             </span>
           </div>
-          <Link href={"/passwordRecovery"} className="text-white text-sm font-extralight">
-            ¿Necesitas ayuda?
-          </Link>
+          <button
+            type="submit"
+            className="bg-red-600 text-white font-semibold h-14 rounded mt-9 "
+            name="Iniciar sesión"
+          >Registrarse</button>
+        </form>
+        <div className="flex items-center justify-between">
+         
         </div>
         <div className="mt-10">
-          <span className="text-neutral-600 mr-2">¿Todavía sin Netflix?</span>
-          <Link
-            href={"/signup"}
-            className="text-white font-light mb-4 hover:underline">
-            Suscríbete ya
-          </Link>
-          <br />
           <span className="text-neutral-600 text-xs">
             Esta página utiliza Google reCAPTCHA para garantizar que no eres
             robot.
@@ -140,4 +136,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
